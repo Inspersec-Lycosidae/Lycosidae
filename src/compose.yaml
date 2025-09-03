@@ -1,0 +1,67 @@
+# compose.yaml
+services:
+  LycosidaeDB:
+    image: mariadb:latest
+    hostname: LycosidaeDB
+    environment:
+      #Database name
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-lycosidae}
+      #Username for the database
+      MARIADB_USER: ${MARIADB_USER:-lycosidae}
+      #Password for the user
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-lycosidae}
+      #Root password
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-lycosidae}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - lycosidae
+    ports:
+      - "3306:3306"
+  
+  interpreter:
+    build:
+      context: ./Interpreter-Lycosidae
+      dockerfile: Dockerfile
+    environment:
+      #DB Connection URL
+      DATABASE_URL: ${DATABASE_URL:-mariadb+pymysql://lycosidae:lycosidae@LycosidaeDB:3306/lycosidae}}
+    depends_on:
+      - LycosidaeDB
+    networks:
+      - lycosidae
+    ports:
+      - "8080:8080"
+
+  orchester:
+    build:
+      context: ./Orchester-Lycosidae
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    networks:
+      - lycosidae
+    ports:
+      - "8081:8081"
+
+  backend:
+    build:
+      context: ./Backend-Lycosidae
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-Secret_Key}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-1800}
+    depends_on:
+      - interpreter
+      - LycosidaeDB
+    networks:
+      - lycosidae
+    ports:
+      - "8082:8082"
+
+volumes:
+  mariadb-data:
+
+networks:
+  lycosidae:
+    driver: bridge
