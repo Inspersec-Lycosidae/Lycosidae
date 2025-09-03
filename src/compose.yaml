@@ -23,6 +23,8 @@ services:
     build:
       context: ./Interpreter-Lycosidae
       dockerfile: Dockerfile
+    volumes:
+      - ./Interpreter-Lycosidae:/interpreter
     environment:
       #DB Connection URL
       DATABASE_URL: ${DATABASE_URL:-mariadb+pymysql://lycosidae:lycosidae@LycosidaeDB:3306/lycosidae}}
@@ -37,6 +39,8 @@ services:
     build:
       context: ./Orchester-Lycosidae
       dockerfile: Dockerfile
+    volumes:
+      - ./Orchester-Lycosidae:/orchester
     depends_on:
       - backend
     networks:
@@ -48,6 +52,8 @@ services:
     build:
       context: ./Backend-Lycosidae
       dockerfile: Dockerfile
+    volumes:
+      - ./Backend-Lycosidae:/backend
     environment:
       JWT_SECRET: ${JWT_SECRET:-Secret_Key}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-1800}
