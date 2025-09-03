@@ -7,7 +7,7 @@ set -o pipefail
 # ------------------------------------------
 
 # Load environment variables from .env
-ENV_FILE=".env"
+ENV_FILE="src/.env"
 if [ ! -f "$ENV_FILE" ]; then
   echo "ERROR: $ENV_FILE not found!"
   exit 1
@@ -18,6 +18,8 @@ echo "------------------------------------------"
 echo "Deploying Lycosidae Docker Compose stack"
 echo "Using env file: $ENV_FILE"
 echo "------------------------------------------"
+
+cd src
 
 # Stop and remove old containers (optional)
 echo "Stopping and removing old containers..."
