@@ -7,7 +7,7 @@ set -o pipefail
 # ------------------------------------------
 
 # Load environment variables from .env
-ENV_FILE="src/.env"
+ENV_FILE=".env"
 if [ ! -f "$ENV_FILE" ]; then
   echo "ERROR: $ENV_FILE not found!"
   exit 1

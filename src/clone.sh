@@ -1,5 +1,4 @@
 set -e
-cd src
 
 # Function to clone or pull a repo
 clone_or_pull() {
