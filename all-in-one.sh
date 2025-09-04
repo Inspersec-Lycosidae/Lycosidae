@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Navigate to /src
-cd /src
+cd src
 
 # Config scripts for running
 chmod 600 clone.sh deploy.sh
