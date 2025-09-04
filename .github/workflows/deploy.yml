@@ -10,14 +10,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Debug Secrets
       run: |
         echo "🔍 Verificando secrets..."
         echo "VPS_HOST: ${{ secrets.VPS_HOST }}"
         echo "VPS_USERNAME: ${{ secrets.VPS_USERNAME }}"
-        echo "VPS_PASSWORD definido: ${{ secrets.VPS_PASSWORD != '' }}"
+        echo "VPS_SSH_KEY definido: ${{ secrets.VPS_SSH_KEY != '' }}"
         
         if [ -z "${{ secrets.VPS_HOST }}" ]; then
           echo "❌ ERRO: VPS_HOST não está definido!"
@@ -29,8 +29,8 @@ jobs:
           exit 1
         fi
         
-        if [ -z "${{ secrets.VPS_PASSWORD }}" ]; then
-          echo "❌ ERRO: VPS_PASSWORD não está definido!"
+        if [ -z "${{ secrets.VPS_SSH_KEY }}" ]; then
+          echo "❌ ERRO: VPS_SSH_KEY não está definido!"
           exit 1
         fi
         
@@ -41,7 +41,7 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
-        password: ${{ secrets.VPS_PASSWORD }}
+        key: ${{ secrets.VPS_SSH_KEY }}
         port: 22
         script: |
           echo "✅ Conexão SSH funcionou!"
@@ -54,7 +54,7 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
-        password: ${{ secrets.VPS_PASSWORD }}
+        key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           set -e
           echo "🚀 Iniciando deploy do Lycosidae (Repositório Principal)..."
