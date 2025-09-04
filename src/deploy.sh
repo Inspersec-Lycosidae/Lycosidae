@@ -19,8 +19,6 @@ echo "Deploying Lycosidae Docker Compose stack"
 echo "Using env file: $ENV_FILE"
 echo "------------------------------------------"
 
-cd src
-
 # Stop and remove old containers (optional)
 echo "Stopping and removing old containers..."
 docker compose down
