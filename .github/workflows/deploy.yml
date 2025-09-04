@@ -1,4 +1,4 @@
-name: Deploy Lycosidae
+name: Deploy Lycosidae Main
 
 on:
   push:
@@ -8,41 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      frontend: ${{ steps.changes.outputs.frontend }}
-      backend: ${{ steps.changes.outputs.backend }}
-      interpreter: ${{ steps.changes.outputs.interpreter }}
-      orchester: ${{ steps.changes.outputs.orchester }}
-      compose: ${{ steps.changes.outputs.compose }}
-      any-changes: ${{ steps.changes.outputs.any-changes }}
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: dorny/paths-filter@v2
-      id: changes
-      with:
-        filters: |
-          frontend:
-            - 'src/Frontend-Lycosidae/**'
-          backend:
-            - 'src/Backend-Lycosidae/**'
-          interpreter:
-            - 'src/Interpreter-Lycosidae/**'
-          orchester:
-            - 'src/Orchester-Lycosidae/**'
-          compose:
-            - 'src/compose.yaml'
-            - 'src/.env*'
-          any-changes:
-            - 'src/**'
-
   deploy:
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.any-changes == 'true' }}
     runs-on: ubuntu-latest
+    
     steps:
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.3
@@ -52,7 +20,7 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           set -e
-          echo "🚀 Iniciando deploy do Lycosidae..."
+          echo "🚀 Iniciando deploy do Lycosidae (Repositório Principal)..."
           
           # Ir para o diretório do projeto
           cd /root/Lycosidae-Project/Lycosidae
@@ -66,4 +34,4 @@ jobs:
           chmod +x deploy.sh
           ./deploy.sh
           
-          echo "✅ Deploy concluído com sucesso!"
+          echo "✅ Deploy do Lycosidae (Repositório Principal) concluído com sucesso!"
