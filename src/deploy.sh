@@ -23,14 +23,14 @@ cd src
 
 # Stop and remove old containers (optional)
 echo "Stopping and removing old containers..."
-docker-compose down
+docker compose down
 
 # Build and start services in detached mode
 echo "Building and starting services..."
-docker-compose up --build -d
+docker compose up --build -d
 
 # Show status
 echo "Deployment complete! Current containers:"
-docker-compose ps
+docker compose ps
 
-echo "You can view logs with: docker-compose logs -f"
+echo "You can view logs with: docker compose logs -f"
