@@ -1,4 +1,5 @@
 # compose.yaml
+# Uncomment volumes for real time debuild when developping
 services:
   LycosidaeDB:
     image: mariadb:latest
@@ -23,37 +24,44 @@ services:
     build:
       context: ./Interpreter-Lycosidae
       dockerfile: Dockerfile
-    volumes:
-      - ./Interpreter-Lycosidae:/interpreter
+
+    # volumes:
+    #   - ./Interpreter-Lycosidae:/interpreter
+
     environment:
       #DB Connection URL
-      DATABASE_URL: ${DATABASE_URL:-mariadb+pymysql://lycosidae:lycosidae@LycosidaeDB:3306/lycosidae}}
+      DATABASE_URL: ${DATABASE_URL:-mariadb+pymysql://lycosidae:lycosidae@LycosidaeDB:3306/lycosidae}
+      PASS_SALT: ${PASS_SALT:-Lycosidae}
     depends_on:
       - LycosidaeDB
     networks:
       - lycosidae
     ports:
-      - "8080:8080"
+      - "8080:8000"
 
   orchester:
     build:
       context: ./Orchester-Lycosidae
       dockerfile: Dockerfile
-    volumes:
-      - ./Orchester-Lycosidae:/orchester
+
+    # volumes:
+    #   - ./Orchester-Lycosidae:/orchester
+
     depends_on:
       - backend
     networks:
       - lycosidae
     ports:
-      - "8081:8081"
+      - "8081:8000"
 
   backend:
     build:
       context: ./Backend-Lycosidae
       dockerfile: Dockerfile
-    volumes:
-      - ./Backend-Lycosidae:/backend
+
+    # volumes:
+    #   - ./Backend-Lycosidae:/backend
+
     environment:
       JWT_SECRET: ${JWT_SECRET:-Secret_Key}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-1800}
@@ -63,7 +71,7 @@ services:
     networks:
       - lycosidae
     ports:
-      - "8082:8082"
+      - "8082:8000"
 
 volumes:
   mariadb-data:
