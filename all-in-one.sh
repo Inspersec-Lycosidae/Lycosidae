@@ -4,7 +4,7 @@
 cd src
 
 # Config scripts for running
-chmod 600 clone.sh deploy.sh
+chmod +x clone.sh deploy.sh
 
 # Run the first script
 ./clone.sh
