@@ -10,54 +10,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Debug Secrets
-      run: |
-        echo "🔍 Verificando secrets..."
-        echo "VPS_HOST: ${{ secrets.VPS_HOST }}"
-        echo "VPS_USERNAME: ${{ secrets.VPS_USERNAME }}"
-        echo "VPS_SSH_KEY definido: ${{ secrets.VPS_SSH_KEY != '' }}"
-        
-        if [ -z "${{ secrets.VPS_HOST }}" ]; then
-          echo "❌ ERRO: VPS_HOST não está definido!"
-          exit 1
-        fi
-        
-        if [ -z "${{ secrets.VPS_USERNAME }}" ]; then
-          echo "❌ ERRO: VPS_USERNAME não está definido!"
-          exit 1
-        fi
-        
-        if [ -z "${{ secrets.VPS_SSH_KEY }}" ]; then
-          echo "❌ ERRO: VPS_SSH_KEY não está definido!"
-          exit 1
-        fi
-        
-        echo "✅ Todas as secrets estão definidas!"
-    
-    - name: Test SSH Connection
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        port: 22
-        script: |
-          echo "✅ Conexão SSH funcionou!"
-          echo "Usuário: $(whoami)"
-          echo "Hostname: $(hostname)"
-          echo "Data: $(date)"
-    
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
+        password: ${{ secrets.VPS_PASSWORD }}
         script: |
           set -e
-          echo "🚀 Iniciando deploy do Lycosidae (Repositório Principal)..."
+          echo "🚀 Iniciando deploy do Lycosidae..."
           
           # Ir para o diretório do projeto
           cd /root/Lycosidae-Project/Lycosidae
@@ -68,7 +31,7 @@ jobs:
           
           # Executar script de deploy
           echo "🔧 Executando script de deploy..."
-          chmod +x deploy.sh
-          ./deploy.sh
+          chmod +x all-in-one.sh
+          ./all-in-one.sh
           
-          echo "✅ Deploy do Lycosidae (Repositório Principal) concluído com sucesso!"
+          echo "✅ Deploy concluído com sucesso!"
