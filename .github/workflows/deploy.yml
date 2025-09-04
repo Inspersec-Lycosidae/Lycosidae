@@ -71,4 +71,4 @@ jobs:
           chmod +x deploy.sh
           ./deploy.sh
           
-          echo "✅ Deploy do Lycosidae (Repositório Principal) concluído com sucesso!"
+          echo "✅ Deploy do Lycosidae  concluído com sucesso!"
