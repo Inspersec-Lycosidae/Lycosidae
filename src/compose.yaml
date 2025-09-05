@@ -44,15 +44,14 @@ services:
       context: ./Orchester-Lycosidae
       dockerfile: Dockerfile
 
-    # volumes:
-    #   - ./Orchester-Lycosidae:/orchester
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - ./Orchester-Lycosidae:/orchester
 
     depends_on:
       - backend
-    networks:
-      - lycosidae
-    ports:
-      - "8081:8000"
+    network_mode: "host"
+
 
   backend:
     build:
