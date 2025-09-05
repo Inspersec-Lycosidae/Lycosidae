@@ -47,6 +47,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       # - ./Orchester-Lycosidae:/orchester
+    
+    environment:
+      PUBLIC_IP: ${PUBLIC_IP:-0.0.0.0}
 
     depends_on:
       - backend
